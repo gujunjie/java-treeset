@@ -1,139 +1,72 @@
 package project03;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Stack;
 import java.util.TreeSet;
-
-
 
 public class Text {
 
 	public static void main(String[] args) {
 		
+		//自然排序，employee类实现comparable接口，重写compareTo方法，同时也要重写hashcode与equals
 		
-		List<String> list=new ArrayList<>();
-		list.add("a");
-		list.add("b");
-		list.add("c");
-		list.add("d");
-		Iterator<String> iterator=list.iterator();//迭代器遍历列表
+		Employee employee1=new Employee("aa", 54, new MyDate(4,5, 1997));
+		Employee employee2=new Employee("aa", 34, new MyDate(7,4, 1993));
+		Employee employee3=new Employee("cc", 64, new MyDate(8,8, 1996));
+		Employee employee4=new Employee("dd", 57, new MyDate(3,5, 1992));
+		Employee employee5=new Employee("hgf", 23, new MyDate(1,3, 1997));
 		
-		while(iterator.hasNext())
-		{
-			String s=iterator.next();
-			System.out.println(s);
-		}
-     Map<String,Integer> map=new HashMap<String,Integer>();
-     
-     map.put("first",1);
-     map.put("second",2);
-     map.put("third",3);
-     
-     System.out.println(map.containsKey("second"));//是否包含指定key
-     System.out.println(map.containsValue(4));//是否包含指定value
-     
-     Set<String> set=map.keySet();//获取该图中所有key组成的无序集合
-     
-     for(String s:set)
-     {
-    	 System.out.println(map.get(s));//通过key的方式遍历value
-     }
-     
-     List<String> list2=new LinkedList<>();
-     
-     list2.add("1");
-     list2.add("4");
-     list2.add("3");
-     list2.add("8");
-     
-     Iterator<String> iterator2=list2.iterator();
-     
-     while(iterator2.hasNext())
-     {
-    	 System.out.println(iterator2.next());
-     }
-     
-     System.out.println(list2.get(2));
-     
-     
-     Set<Integer> set2=new HashSet<>();
-     set2.add(3);
-     set2.add(9);
-     set2.add(6);
-     set2.add(null);
-     
-     for(Integer i:set2)
-     {
-    	 System.out.println(i);
-     }
-     
-     set2.remove(9);
-     
-     for(Integer i:set2)
-     {
-    	 System.out.println(i);
-     }
-     
-     
-     
-     Comparator<Integer> comparator=new Comparator<Integer>() {
+		Set<Employee> set=new TreeSet<>();
+		set.add(employee1);
+		set.add(employee2);
+		set.add(employee3);
+		set.add(employee4);
+		set.add(employee5);
+		
+	    for(Employee e:set)
+	    {
+	    	System.out.println(e.toString());
+	    }
+	    
+	    //定制排序，创建一个实现comparator接口的类，并重写compare方法
+	    
+	    Comparator< Employee> comparator=new Comparator<Employee>() {
 
-		@Override
-		public int compare(Integer arg0, Integer arg1) {
-			// TODO Auto-generated method stub
-			if(arg0<arg1)
-			{
-				return 1;
-			}else if(arg0>arg1)
-			{
-				return -1;
-			}else {
-				return 0;
+			@Override
+			public int compare(Employee arg0, Employee arg1) {
+				int i=arg0.getBirthday().getYear()-arg1.getBirthday().getYear();
+				if(i!=0)
+				{
+					return i;
+				}else
+				{
+					int j=arg0.getBirthday().getMonth()-arg1.getBirthday().getMonth();
+					if(j!=0)
+					{
+						return j;
+					}else {
+						return arg0.getBirthday().getDay()-arg1.getBirthday().getDay();
+					}
+				}
+				
 			}
+		};
+	    
+	    Set<Employee> set2=new TreeSet<>(comparator);
+	    set2.add(employee1);
+		set2.add(employee2);
+		set2.add(employee3);
+		set2.add(employee4);
+		set2.add(employee5);
+		
+		for(Employee e:set2)
+		{
+			System.out.println(e.toString());
 		}
-	};
-     Set<String> set3=new TreeSet<>();
-     
-     set3.add("abcd");
-     set3.add("grtd");
-     set3.add("bdr");
-     
-     System.out.println(set3);
-     
-     Map<Integer, String> hashmap=new HashMap<>();
-     
-     hashmap.put(1,"first");
-      
-     hashmap.put(2,"second");
-     
-     hashmap.put(3,"third");
-     
-     Set<Integer> set4=hashmap.keySet();
-     
-     
-     for(Integer i:set4)
-     {
-    	 System.out.println(hashmap.get(i));
-     }
+		
+		
+		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 }
